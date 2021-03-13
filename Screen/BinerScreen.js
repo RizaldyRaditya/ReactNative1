@@ -1,0 +1,66 @@
+import React, { Component } from 'react';
+import {View, Picker, PickerItem} from "react-native"; //menambah style elemen
+import {Text, Input, Button} from "react-native-elements"; // Load Komponen Text,Input dan Button
+import TopHeader from "../Component/TopHeader";
+
+class BinerScreen extends Component {
+    constructor() {
+        super();
+        this.state = {
+            option: "10",
+            biner: "",
+            result: ""
+        }
+    }
+    
+    convertToDesimal = () => {
+        let hasil = parseInt(this.state.biner,2).toString(10);
+        this.setState({result: hasil});
+    }
+    convertToOktal = () => {
+        let hasil = parseInt(this.state.biner,2).toString(8);
+        this.setState({result: hasil});
+    }
+    convertToHexa = () => {
+        let hasil = parseInt(this.state.biner,2).toString(16).toUpperCase();
+        this.setState({result: hasil});
+    }
+    convert = () => {
+        if (this.state.option === "10") {
+            this.convertToDesimal();
+        }
+        else if (this.state.option === "8") {
+            this.convertToOktal();
+        }
+        else if (this.state.option === "16") {
+            this.convertToHexa();
+        }
+    }
+
+    render () {
+        return(
+            <View>
+                <TopHeader navigation={this.props.navigation} title="Konversi Biner" />
+                  <View style={{padding:10}}>
+                      <Text h4>Konversi Bilangan Biner</Text>
+                      <Text h5>Opsi Konversi</Text>
+                      <Picker
+                        selectedValue={this.state.option} style={{width: 200, height: 80}}
+                        onValueChange={(value) => this.setState({option: value})}
+                      >
+                        <Picker.Item label="Desimal" value="10" />
+                        <Picker.Item label="Oktal" value="8" />
+                        <Picker.Item label="Hexa" value="16" />
+                      </Picker>
+
+                      <Input label="Masukkan Nilai Biner" value={this.state.biner}
+                      onChangeText={(value) => this.setState({biner: value})} />
+
+                      <Button title="Convert" onPress={this.convert} />
+                      <Text h5>Hasil: {this.state.result} </Text>
+                  </View>
+            </View>
+        );
+    }
+}
+export default BinerScreen;
